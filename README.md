@@ -1,0 +1,2 @@
+# ahmedkadryschool
+Student-managment-system
