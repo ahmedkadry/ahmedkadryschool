@@ -1,0 +1,20 @@
+<!-- Skeleton loader for tables -->
+<div id="tableSkeleton" class="animate-pulse p-4">
+    <div class="flex gap-3 mb-4">
+        <div class="h-10 bg-gray-800 rounded-lg w-64"></div>
+        <div class="h-10 bg-gray-800 rounded-lg w-32"></div>
+    </div>
+    <div class="space-y-3">
+        <% for (let i=0; i < 6; i++) { %>
+            <div class="flex gap-4 items-center bg-brand-navy/30 rounded-lg p-4 border border-gray-800">
+                <div class="w-10 h-10 rounded-full bg-gray-700 shrink-0"></div>
+                <div class="flex-1 space-y-2">
+                    <div class="h-3 bg-gray-700 rounded w-1/3"></div>
+                    <div class="h-2 bg-gray-800 rounded w-1/4"></div>
+                </div>
+                <div class="h-6 bg-gray-700 rounded-full w-16"></div>
+                <div class="h-8 bg-gray-700 rounded w-20"></div>
+            </div>
+            <% } %>
+    </div>
+</div>

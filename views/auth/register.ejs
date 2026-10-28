@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { navy: '#0B0F19', slate: '#1E293B', violet: '#8B5CF6', cyan: '#06B6D4' }
+                    },
+                    boxShadow: { 'glow-violet': '0 0 20px -5px rgba(139, 92, 246, 0.5)' }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-brand-navy min-h-screen flex items-center justify-center p-4 py-10 selection:bg-brand-violet selection:text-white">
+
+    <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-brand-violet/20 blur-[120px] rounded-full pointer-events-none">
+    </div>
+
+    <div class="w-full max-w-lg bg-brand-slate border border-gray-800 rounded-2xl p-8 shadow-2xl relative z-10">
+
+        <div class="text-center mb-6">
+            <div
+                class="w-14 h-14 mx-auto bg-gradient-to-br from-brand-violet to-brand-cyan rounded-xl flex items-center justify-center mb-4 shadow-glow-violet">
+                <i data-lucide="user-plus" class="text-white w-7 h-7"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Create an Account</h2>
+            <p class="text-gray-400 text-sm mt-1">Join EduManage as a Student or Teacher</p>
+        </div>
+
+        <form action="/register" method="POST" class="space-y-4" id="registerForm">
+
+            <!-- Role Selector -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">I am a...</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="role" value="Student" class="peer sr-only" <%=studentChecked %>>
+                        <div
+                            class="p-3 rounded-lg border border-gray-700 bg-brand-navy peer-checked:border-brand-violet peer-checked:bg-brand-violet/10 text-center transition-colors">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 mx-auto mb-1 text-gray-400"></i>
+                            <span class="text-sm text-gray-300">Student</span>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="role" value="Teacher" class="peer sr-only" <%=teacherChecked %>>
+                        <div
+                            class="p-3 rounded-lg border border-gray-700 bg-brand-navy peer-checked:border-brand-cyan peer-checked:bg-brand-cyan/10 text-center transition-colors">
+                            <i data-lucide="briefcase" class="w-5 h-5 mx-auto mb-1 text-gray-400"></i>
+                            <span class="text-sm text-gray-300">Teacher</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Names -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                    <input type="text" name="firstName" required maxlength="50" value="<%= firstName %>"
+                        class="w-full bg-brand-navy border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-violet"
+                        placeholder="John">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                    <input type="text" name="lastName" required maxlength="50" value="<%= lastName %>"
+                        class="w-full bg-brand-navy border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-violet"
+                        placeholder="Doe">
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                <div class="relative">
+                    <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4"></i>
+                    <input type="email" name="email" required value="<%= email %>"
+                        class="w-full bg-brand-navy border border-gray-700 rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-violet"
+                        placeholder="john.doe@example.com">
+                </div>
+            </div>
+
+            <!-- Passwords -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                    <input type="password" name="password" required minlength="6"
+                        class="w-full bg-brand-navy border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-violet"
+                        placeholder="Min 6 chars">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Confirm Password</label>
+                    <input type="password" name="confirmPassword" required minlength="6"
+                        class="w-full bg-brand-navy border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-violet"
+                        placeholder="Repeat password">
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-500">
+                By registering, you agree to EduManage's
+                <a href="#" class="text-brand-cyan hover:underline">Terms</a> and
+                <a href="#" class="text-brand-cyan hover:underline">Privacy Policy</a>.
+            </p>
+
+            <button type="submit" id="submitBtn"
+                class="w-full bg-brand-violet hover:bg-violet-600 text-white font-semibold py-2.5 rounded-lg transition-colors shadow-glow-violet mt-2">
+                Create Account
+            </button>
+        </form>
+
+        <div class="mt-6 pt-6 border-t border-gray-800 text-center">
+            <p class="text-sm text-gray-400">
+                Already have an account?
+                <a href="/login" class="text-brand-cyan hover:underline font-medium">Sign in</a>
+            </p>
+            <a href="/" class="inline-block mt-3 text-xs text-gray-500 hover:text-gray-300 transition-colors">← Back to
+                Home</a>
+        </div>
+    </div>
+
+    <script>
+        if (window.lucide) lucide.createIcons();
+
+        const flashErrors = <% - JSON.stringify(error_msg) %>;
+        const flashSuccesses = <% - JSON.stringify(success_msg) %>;
+
+        const Toast = Swal.mixin({
+            toast: true, position: 'top-end', showConfirmButton: false, timer: 3500,
+            timerProgressBar: true, background: '#1E293B', color: '#F8FAFC'
+        });
+        if (flashErrors.length > 0) Toast.fire({ icon: 'error', title: flashErrors[0] });
+        if (flashSuccesses.length > 0) Toast.fire({ icon: 'success', title: flashSuccesses[0] });
+
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            const pw = this.password.value;
+            const cpw = this.confirmPassword.value;
+            if (pw !== cpw) {
+                e.preventDefault();
+                Toast.fire({ icon: 'error', title: 'Passwords do not match.' });
+                return;
+            }
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = 'Creating account...';
+        });
+    </script>
+</body>
+
+</html>

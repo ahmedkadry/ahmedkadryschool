@@ -1,0 +1,35 @@
+<% const _pageTitle=(typeof title !=='undefined' && title) ? title : '' ; const navItems=[ { href: '/dashboard' ,
+    label: 'Dashboard' , icon: 'layout-dashboard' , match: 'Dashboard' }, { href: '/students' , label: 'Students' ,
+    icon: 'users' , match: 'Student' }, { href: '/teachers' , label: 'Teachers' , icon: 'briefcase' , match: 'Teacher'
+    }, { href: '/courses' , label: 'Courses' , icon: 'book-open' , match: 'Course' }, { href: '/attendance'
+    ,label: 'Attendance' ,icon: 'calendar-check' , match: 'Attendance' } ]; %>
+    <aside class="w-64 bg-brand-slate border-r border-gray-800 flex-shrink-0 hidden md:flex flex-col h-full">
+
+        <div class="h-20 flex items-center px-6 border-b border-gray-800">
+            <a href="/dashboard" class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-violet to-brand-cyan flex items-center justify-center">
+                    <i data-lucide="graduation-cap" class="text-white w-5 h-5"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight">EduManage</span>
+            </a>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            <% navItems.forEach(function (item) { %>
+                <% const active=_pageTitle.indexOf(item.match) !==-1; %>
+                    <a href="<%= item.href %>"
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors <%= active ? 'bg-brand-violet/20 text-brand-violet' : 'text-gray-300 hover:text-white hover:bg-brand-violet/10' %>">
+                        <i data-lucide="<%= item.icon %>" class="w-5 h-5"></i>
+                        <%= item.label %>
+                    </a>
+                    <% }) %>
+        </nav>
+
+        <div class="p-4 border-t border-gray-800">
+            <a href="/logout"
+                class="flex items-center gap-3 px-4 py-3 text-red-400 hover:text-white hover:bg-red-500/20 rounded-xl transition-colors">
+                <i data-lucide="log-out" class="w-5 h-5"></i> Logout
+            </a>
+        </div>
+    </aside>

@@ -1,0 +1,34 @@
+<% const _user=(typeof user !=='undefined' && user) ? user : { email: 'guest@local' , role: 'Guest' }; const
+    _title=(typeof title !=='undefined' && title) ? title.split('|')[0].trim() : 'Dashboard' ; const
+    _initial=_user.email ? _user.email.charAt(0).toUpperCase() : 'U' ; const _name=_user.email ?
+    _user.email.split('@')[0] : 'Guest' ; %>
+    <header class="h-20 bg-brand-slate border-b border-gray-800 flex items-center justify-between px-6 flex-shrink-0">
+        <div class="flex items-center gap-4">
+            <h1 class="text-xl font-semibold text-white">
+                <%= _title %>
+            </h1>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button
+                class="p-2 text-gray-400 hover:text-white bg-brand-navy rounded-full border border-gray-700 transition-colors"
+                title="Notifications">
+                <i data-lucide="bell" class="w-5 h-5"></i>
+            </button>
+
+            <div class="flex items-center gap-3 border-l border-gray-700 pl-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-medium text-white">
+                        <%= _name %>
+                    </p>
+                    <p class="text-xs text-brand-cyan">
+                        <%= _user.role %>
+                    </p>
+                </div>
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-violet to-brand-cyan flex items-center justify-center text-white font-bold">
+                    <%= _initial %>
+                </div>
+            </div>
+        </div>
+    </header>

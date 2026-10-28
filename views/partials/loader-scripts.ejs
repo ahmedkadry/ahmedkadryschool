@@ -1,0 +1,85 @@
+<script>
+    (function () {
+        const bar = document.getElementById('topProgress');
+        const overlay = document.getElementById('globalLoader');
+        let progressTimer = null;
+
+        // --- Progress bar ---
+        function startProgress() {
+            if (!bar) return;
+            clearInterval(progressTimer);
+            bar.classList.remove('opacity-0');
+            bar.style.width = '15%';
+            let w = 15;
+            progressTimer = setInterval(function () {
+                w = Math.min(w + Math.random() * 10, 90);
+                bar.style.width = w + '%';
+            }, 200);
+        }
+
+        function completeProgress() {
+            if (!bar) return;
+            clearInterval(progressTimer);
+            bar.style.width = '100%';
+            setTimeout(function () {
+                bar.classList.add('opacity-0');
+                setTimeout(function () { bar.style.width = '0%'; }, 300);
+            }, 250);
+        }
+
+        // --- Full-page loader ---
+        function showLoader() {
+            if (!overlay) return;
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100');
+        }
+
+        function hideLoader() {
+            if (!overlay) return;
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            overlay.classList.remove('opacity-100');
+        }
+
+        // --- Link click → show progress bar ---
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('a');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('javascript:') ||
+                href.startsWith('mailto:') || link.target === '_blank' ||
+                link.dataset.noLoader === 'true') return;
+            startProgress();
+        });
+
+        // --- Form submit → show full overlay + button spinner ---
+        document.addEventListener('submit', function (e) {
+            const form = e.target;
+            if (form.dataset.noLoader === 'true') return;
+
+            showLoader();
+            if (bar) { bar.classList.remove('opacity-0'); bar.style.width = '100%'; }
+
+            // Find submit button and add spinner
+            const btn = form.querySelector('button[type="submit"], input[type="submit"]');
+            if (btn && !btn.disabled) {
+                btn.dataset.originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="inline-flex items-center gap-2"><svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-opacity="0.3"/><path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span>Processing...</span></span>';
+            }
+        });
+
+        // --- On page show (fresh load or back button) → clear loaders ---
+        window.addEventListener('pageshow', function () {
+            hideLoader();
+            completeProgress();
+            // Restore any buttons stuck in loading state (back button)
+            document.querySelectorAll('button[data-original-text]').forEach(function (btn) {
+                btn.innerHTML = btn.dataset.originalText;
+                btn.disabled = false;
+            });
+        });
+
+        // --- Expose globally for manual use ---
+        window.Loader = { show: showLoader, hide: hideLoader, start: startProgress, done: completeProgress };
+    })();
+</script>
